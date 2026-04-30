@@ -151,8 +151,53 @@ class PasswordValidatorTest {
     }
 
     @Test
-    void containsUpperAndLower() {
-        assertTrue(true);
+    void containsUpperAndLower_shouldReturnfalse_whenabc() {
+        //given
+        String str = "abc";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(false, act);
+    }
+
+    @Test
+    void containsUpperAndLower_shouldReturnfalse_whenABC() {
+        //given
+        String str = "ABC";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(false, act);
+    }
+
+    @Test
+    void containsUpperAndLower_shouldReturnfalse_when123() {
+        //given
+        String str = "123";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(false, act);
+    }
+
+    @Test
+    void containsUpperAndLower_shouldReturnfalse_whenplusminus() {
+        //given
+        String str = "+-+-+-";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(false, act);
+    }
+
+    @Test
+    void containsUpperAndLower_shouldReturntrue_when1Aa2bb3() {
+        //given
+        String str = "1Aa2bb3";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(true, act);
     }
 
     @Test
