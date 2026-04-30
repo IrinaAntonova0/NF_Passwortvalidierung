@@ -8,7 +8,7 @@ Es handelt sich um einen Passwort Checker der per Kommandozeile ein eingegebenes
 
 Das Passwort muss
 
-1. mindestens 8 Zeichen haben
+1. mindestens 8 Zeichen haben, Mindestanzahl muss > 0 sein
 2. mindestens eine Ziffer (0–9) enthalten
 3. Groß- und Kleinbuchstaben (beides muss vorkommen) enthalten
 4. nicht in einer Liste häufiger/schwacher Passwörter vorkommen

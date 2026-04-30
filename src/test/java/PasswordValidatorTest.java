@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,6 +82,22 @@ class PasswordValidatorTest {
         //then
         assertEquals(false, act);
     }
+
+    //Parametriesierte Tests @CsvSource({"arg0,arg1, arg2", "arg0,arg1, arg2", })
+    @ParameterizedTest
+    @CsvSource({"null,8 ,false",
+            ",8 ,false",
+            "1234567,8 ,false",
+            "12345678,8 ,true",
+            "123456789,8 ,true",
+            "S,1, true",
+            "1234567, 0, false"
+    })
+    void hasMinLength_shouldREturnArg2_whenCalledwithArg0andArg1(String str, int minL, boolean expected) {
+        boolean actual = PasswordValidator.hasMinLength(str, minL);
+        assertEquals(expected, actual);
+    }
+
 
 
     @Test
