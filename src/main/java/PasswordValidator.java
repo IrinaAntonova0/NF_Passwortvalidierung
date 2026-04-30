@@ -9,7 +9,26 @@ public final class PasswordValidator {
     };
 
     public static boolean containsUpperAndLower(String password){
-        return false;
+        if( password == null || password.length() == 0 ){
+            return false;
+        }
+        char cArr[] = password.toCharArray();
+        boolean isUpper = false;
+        boolean isLower = false;
+        for(char c : cArr) {
+            if(isUpper && isLower) {
+                return true;
+            }
+/*            if(isUpper && Character.isLowerCase(c)) {
+                return true;
+            }
+            if(isLower && Character.isUpperCase(c)) {
+                return true;
+            }*/
+            isLower = Character.isLowerCase(c) ? true : isLower ;
+            isUpper = Character.isUpperCase(c) ? true : isUpper ;
+        }
+        return isUpper && isLower;
     };
     
     public static boolean isCommonPassword(String password){
