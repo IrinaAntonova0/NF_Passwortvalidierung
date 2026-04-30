@@ -5,8 +5,19 @@ public final class PasswordValidator {
     };
 
     public static boolean containsDigit(String password){
+        if( password == null || password.length() == 0 ){
+            return false;
+        }
+        char cArr[] = password.toCharArray();
+        boolean isLetter = false;
+        for(char c : cArr) {
+            if(Character.isDigit(c))
+                return true;
+            else
+                continue;
+        }
         return false;
-    };
+    }
 
     public static boolean containsUpperAndLower(String password){
         return false;
