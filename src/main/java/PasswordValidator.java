@@ -49,8 +49,20 @@ public final class PasswordValidator {
     };
 
     public static boolean isCommonPassword(String password){
+        for(String s : commons){
+            if(password.toLowerCase().equals(s.toLowerCase()))
+                return true;
+            else
+                continue;
+        }
         return false;
     }; // kleine interne Liste
+
+    // kleine interne Liste
+    public static String[] commons = {"password", "Passwort1", "12345678", "Aa345678"};
+
+
+
 
 
     // Bonus:
