@@ -83,9 +83,9 @@ class PasswordValidatorTest {
         assertEquals(false, act);
     }
 
-    //Parametriesierte Tests @CsvSource({"arg0,arg1, arg2", "arg0,arg1, arg2", })
+    //Parametrisierte Tests @CsvSource({"arg0,arg1, arg2", "arg0,arg1, arg2", })
     @ParameterizedTest
-    @CsvSource({"null,8 ,false",
+    @CsvSource( value = { ",8 ,false",
             ",8 ,false",
             "1234567,8 ,false",
             "12345678,8 ,true",
@@ -171,6 +171,25 @@ class PasswordValidatorTest {
     }
 
     @Test
+    void containsUpperAndLower_shouldReturnfalse_whenA() {
+        //given
+        String str = "A";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(false, act);
+    }
+
+    @Test
+    void containsUpperAndLower_shouldReturnfalse_whenb() {
+        //given
+        String str = "b";
+        //when
+        boolean act = PasswordValidator.containsUpperAndLower(str);
+        //then
+        assertEquals(false, act);
+    }
+    @Test
     void containsUpperAndLower_shouldReturnfalse_when123() {
         //given
         String str = "123";
@@ -238,5 +257,26 @@ class PasswordValidatorTest {
     @Test
     void isValid() {
         assertTrue(true);
+    }
+
+    //Parametrisierte Tests @CsvSource({"arg0,arg1, arg2", "arg0,arg1, arg2", })
+    @ParameterizedTest
+    @CsvSource(value =
+            {"null,false", // zu null
+                    "abcd, false", //zu kurz
+                    "abcdabcd, false", // keine Ziffer
+                    "abcdabc1, false", // no upperCase
+                    "ABCDABC1, false", // no lowerCase
+                    "password, false", // common password
+                    "+-+-+-+-, false", //
+                    " '         ', false", // no password
+                    " '  cdAB12  ', false", // 2 short
+                    " '  cdA!!!B12  ', true", //
+                    "ABCDabc1, true",
+    },    nullValues = "null"
+    )// Definiert, welcher Text als null gilt
+    void hasMinLength_shouldREturnArg2_whenCalledwithArg0andArg1(String password, boolean expected) {
+        boolean actual = PasswordValidator.isValid(password);
+        assertEquals(expected, actual);
     }
 }

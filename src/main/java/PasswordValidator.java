@@ -1,4 +1,24 @@
+import java.awt.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public final class PasswordValidator {
+
+    // kleine interne Liste
+    public static final String[] COMMONS = {"password", "Passwort1", "12345678", "Aa345678"};
+
+    public static final Set<String> COMMONS_SET = Arrays.stream(COMMONS)
+            .map(String::trim)        // Trims whitespace
+            .map(String::toLowerCase) // Converts to lowercase
+            .collect(Collectors.collectingAndThen(
+                    Collectors.toSet(),  // Unique result in HashSet
+                    Collections::unmodifiableSet // Make Set immutable
+                ));
+    // = Set.copyOf(Arrays.asList(COMMONS)); // Just Set, no lowerCase or trim
+
+    public static final int MIN = 8;
 
     public static boolean hasMinLength(String password, int min){
         if( min == 0 || password == null || password.length()<= 0 ) {
@@ -8,58 +28,47 @@ public final class PasswordValidator {
             return false;
         }
         return true;
-    };
+    }
 
     public static boolean containsDigit(String password){
         if( password == null || password.length() == 0 ){
             return false;
         }
         char cArr[] = password.toCharArray();
-        boolean isLetter = false;
         for(char c : cArr) {
             if(Character.isDigit(c))
                 return true;
-            else
-                continue;
+            else {
+            }
         }
         return false;
     }
 
     public static boolean containsUpperAndLower(String password){
-        if( password == null || password.length() == 0 ){
+        if( password == null || password.length() < 2 ){
             return false;
         }
-        char cArr[] = password.toCharArray();
         boolean isUpper = false;
         boolean isLower = false;
-        for(char c : cArr) {
+        for(char c : password.toCharArray()) {
+            isLower = Character.isLowerCase(c) ? true : isLower ;
+            isUpper = Character.isUpperCase(c) ? true : isUpper ;
             if(isUpper && isLower) {
                 return true;
             }
-/*            if(isUpper && Character.isLowerCase(c)) {
-                return true;
-            }
-            if(isLower && Character.isUpperCase(c)) {
-                return true;
-            }*/
-            isLower = Character.isLowerCase(c) ? true : isLower ;
-            isUpper = Character.isUpperCase(c) ? true : isUpper ;
         }
         return isUpper && isLower;
-    };
+    }
 
     public static boolean isCommonPassword(String password){
-        for(String s : commons){
-            if(password.toLowerCase().equals(s.toLowerCase()))
+        for(String s : COMMONS_SET){
+            if(password.toLowerCase().equals(s.toLowerCase())) {
                 return true;
-            else
-                continue;
+            }
         }
         return false;
-    }; // kleine interne Liste
+    } // kleine interne Liste
 
-    // kleine interne Liste
-    public static String[] commons = {"password", "Passwort1", "12345678", "Aa345678"};
 
 
 
@@ -68,9 +77,20 @@ public final class PasswordValidator {
     // Bonus:
     public static boolean containsSpecialChar(String password, String allowed){
         return false;
-    };
+    }
+
     // Optionale Gesamtsicht:
     public static boolean isValid(String password){
-        return false;
-    }; // nutzt die obenstehenden Checks
+        if(password == null)
+            return false;
+        String trimmed = password.trim();
+        if( ! PasswordValidator.hasMinLength(trimmed, MIN))
+            return false;
+        if( ! PasswordValidator.containsDigit(trimmed))
+            return false;
+        if( ! PasswordValidator.containsUpperAndLower(trimmed))
+            return false;
+        return true;
+    } // nutzt die obenstehenden Checks
+
 }
