@@ -1,39 +1,32 @@
-#NF_Passwortvalidierung
+# [NF_Passwortvalidierung](https://github.com/IrinaAntonova0/NF_Passwortvalidierung)
 
-##Projektbeschreibung:
+## Projektbeschreibung
 
-Es handelt sich um einen Passwort Checker der per Kommandozeile ein eingegebenes Passwort einliest, und auf Erfüllung aller Policies achtet.
+Es handelt sich um einen Passwort Checker der im Terminal zur Passworteingabe auffordert und auf Erfüllung aller Policies achtet.
+Solange die Policies nicht erfüllt sind, muss der User weitere Passwörter eingeben.
 
-##Policies
+### Policies
 
-Das Passwort muss
+Das Passwort muss:
 
-1. mindestens 8 Zeichen haben, Mindestanzahl muss > 0 sein
-2. mindestens eine Ziffer (0–9) enthalten
-3. Groß- und Kleinbuchstaben (beides muss vorkommen) enthalten
-4. nicht in einer Liste häufiger/schwacher Passwörter vorkommen
+1. mindestens **8 Zeichen** haben
+2. mindestens **eine Ziffer (0–9)** enthalten
+3. **Groß- und Kleinbuchstaben (a-z)(A-Z)** enthalten
+4. nicht in einer Liste häufiger/schwacher Passwörter vorkommen, Liste= **{"password", "Passwort1", "12345678", "Aa345678"}**
 
-5. (BONUS not implemented) mindestens ein Sonderzeichen (definiere erlaubte Menge)
-6. (BONUS not implemented) Mindestanzahl unterschiedlicher Zeichengruppen (z. B. 3 von 4: Groß, Klein, Ziffer, Sonderzeichen)]
+5. (BONUS is implemented) mindestens ein Sonderzeichen enthalten, Liste= **"!@#$%^&*()-_+=?.,;:"**
+6. ~~(BONUS not implemented) Mindestanzahl unterschiedlicher Zeichengruppen (z. B. 3 von 4: Groß, Klein, Ziffer, Sonderzeichen)~~
 
---------------------------------------------------------
-[click text](https://expurl.com)
+## Build, Run & Tests
 
-- To create a wallet file, run the command:
-```aidl
-web3j wallet create
-```
---------------------------------------------------------
---------------------------------------------------------
-README-Checkliste (erforderlich)
+### Lokal
 
-    Projektbeschreibung + Policy (klar und knapp).
+```bash
+mvn clean verify       # kompilieren + alle Tests ausführen
+mvn package            # JAR bauen → target/*.jar
+java -jar target/*.jar # JAR starten
+``` 
 
-    Build/Run/Tests:
-        lokal: mvn clean verify
-        Artefakt: mvn package → target/*.jar
-    CI-Status-Badge (Actions).
-    Beispiel-Aufrufe (optional: CLI).
-    Hinweis auf Bonusumfang (falls umgesetzt).
---------------------------------------------------------
---------------------------------------------------------
+### CI
+
+[![Java CI with Maven](https://github.com/IrinaAntonova0/NF_Passwortvalidierung/actions/workflows/maven.yml/badge.svg)](https://github.com/IrinaAntonova0/NF_Passwortvalidierung/actions/workflows/maven.yml)
