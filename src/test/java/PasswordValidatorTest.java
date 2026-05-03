@@ -249,14 +249,22 @@ class PasswordValidatorTest {
         assertEquals(false, act);
     }
 
-    @Test
-    void containsSpecialChar() {
-        assertTrue(true);
-    }
-
-    @Test
-    void isValid() {
-        assertTrue(true);
+    //Parametrisierte Tests @CsvSource({"arg0,arg1, arg2", "arg0,arg1, arg2", })
+    @ParameterizedTest
+    @CsvSource( value = { ",false",
+            "1234567,false",
+            "'123:4567',true",
+            "12345678,false",
+            "'-------',true",
+            "1234!56789,true",
+            "'1234!56,;789',true",
+            "+, true",
+            "1@234567, true"
+    })
+    void containsSpecialChar_shouldREturnArg1_whenCalledwithArg0(String str, boolean expected) {
+        boolean actual = PasswordValidator.containsSpecialChar(str,
+                PasswordValidator.SPECIALS);
+        assertEquals(expected, actual);
     }
 
     //Parametrisierte Tests @CsvSource({"arg0,arg1, arg2", "arg0,arg1, arg2", })
@@ -271,11 +279,14 @@ class PasswordValidatorTest {
                     "+-+-+-+-, false", //
                     " '         ', false", // no password
                     " '  cdAB12  ', false", // 2 short
+                    "ABCDabc1, false", // no defined specialChar
                     " '  cdA!!!B12  ', true", //
-                    "ABCDabc1, true",
+                    "AB%CDa$bc1, true",
+                    "'AB+*CD,;abc1', true",
+                    "ABCD%abc1, true",
     },    nullValues = "null"
     )// Definiert, welcher Text als null gilt
-    void hasMinLength_shouldREturnArg2_whenCalledwithArg0andArg1(String password, boolean expected) {
+    void isValid_shouldREturnArg1_whenCalledwithArg0(String password, boolean expected) {
         boolean actual = PasswordValidator.isValid(password);
         assertEquals(expected, actual);
     }

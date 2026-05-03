@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
@@ -8,7 +7,6 @@ public final class PasswordValidator {
 
     // kleine interne Liste
     public static final String[] COMMONS = {"password", "Passwort1", "12345678", "Aa345678"};
-
     public static final Set<String> COMMONS_SET = Arrays.stream(COMMONS)
             .map(String::trim)        // Trims whitespace
             .map(String::toLowerCase) // Converts to lowercase
@@ -16,7 +14,9 @@ public final class PasswordValidator {
                     Collectors.toSet(),  // Unique result in HashSet
                     Collections::unmodifiableSet // Make Set immutable
                 ));
-    // = Set.copyOf(Arrays.asList(COMMONS)); // Just Set, no lowerCase or trim
+
+    public static final String[] SPECIALS = "!@#$%^&*()-_+=?.,;:".split("");
+    //public static final Set<String> SPECIALS_SET = Set.copyOf(Arrays.asList(SPECIALS));
 
     public static final int MIN = 8;
 
@@ -69,13 +69,18 @@ public final class PasswordValidator {
         return false;
     } // kleine interne Liste
 
-
-
-
-
-
     // Bonus:
-    public static boolean containsSpecialChar(String password, String allowed){
+    public static boolean containsSpecialChar(String password, String[] allowed){
+        if( password == null || password.length() == 0 ){
+            return false;
+        }
+        String sArr[] = password.split("");
+        for(String s : sArr) {
+            for(String special : allowed) {
+                if (special.equals(s))
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -89,6 +94,8 @@ public final class PasswordValidator {
         if( ! PasswordValidator.containsDigit(trimmed))
             return false;
         if( ! PasswordValidator.containsUpperAndLower(trimmed))
+            return false;
+        if( ! PasswordValidator.containsSpecialChar(trimmed, SPECIALS))
             return false;
         return true;
     } // nutzt die obenstehenden Checks
